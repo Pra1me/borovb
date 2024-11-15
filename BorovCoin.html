@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Баланс с частицами</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .round-button {
+            width: 100px;
+            height: 100px;
+            background-color: #3498db;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .round-button:hover {
+            background-color: #2980b9;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff6347;
+            border-radius: 50%;
+            animation: particle-animation 1s ease-out forwards;
+        }
+
+        @keyframes particle-animation {
+            0% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0) translateY(-50px);
+                opacity: 0;
+            }
+        }
+
+        .balance-info {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="balance-info" id="balanceDisplay">Баланс: 0</div>
+<button class="round-button" id="balanceButton">Баланс</button>
+
+<script>
+    let balance = 0; // Изначальный баланс
+
+    document.getElementById('balanceButton').addEventListener('click', function(event) {
+        // Увеличиваем баланс
+        balance++;
+
+        // Обновляем отображение баланса
+        document.getElementById('balanceDisplay').textContent = `Баланс: ${balance}`;
+
+        // Создаем частицу
+        createParticle(event.clientX, event.clientY);
+    });
+
+    function createParticle(x, y) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        document.body.appendChild(particle);
+
+        // Позиционируем частицу по координатам клика
+        particle.style.left = `${x - 5}px`; // -5px чтобы центрировать
+        particle.style.top = `${y - 5}px`; // -5px чтобы центрировать
+
+        // Удаляем частицу после завершения анимации
+        setTimeout(() => {
+            particle.remove();
+        }, 1000); // время анимации (1 секунда)
+    }
+</script>
+
+</body>
+</html>
